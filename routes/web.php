@@ -24,5 +24,9 @@ Route::get('/', 'HomeController@index')->name('homepage');
 Route::middleware('auth')->namespace('Admin')->prefix('admin')->name('admin.')
     ->group(function() {
         Route::get('/', 'HomeController@index')->name('index');
+        // creo la rout con resource per gestire i post 
+        Route::resource('/posts', 'PostController');
+
     });
+
 
