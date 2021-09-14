@@ -41,6 +41,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'title' => 'required|max:50',
+                'content' => 'required'
+            ]
+        );
+
         $data = $request->all();
         $new_post = new Post();
         // non funzione con new_post->title  dobbiamo usare $data
