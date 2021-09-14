@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+
         <table class="table">
             <thead>
                 <tr>
@@ -11,6 +12,14 @@
                 </tr>
             </thead>
             <tbody>
+                @if(@session('changed'))
+                    <div class="alert alert-success" >{{@session('changed')}}</div>
+                @elseif (@session('add'))
+                    <div class="alert alert-success" >{{@session('add')}}</div>
+                @elseif (@session('delete'))
+                    <div class="alert alert-danger" >{{@session('delete')}}</div>
+                @endif
+
                 @foreach ($posts as $post)
                 <tr>
                     <th scope="row">{{$post->id}}</th>
@@ -30,6 +39,9 @@
 
             </tbody>
         </table>
+        <div class="d-inline-block mt-5">
+            {{$posts->links()}}
+        </div>
 
     </div>
 

@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::paginate(5);
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -48,14 +48,36 @@ class PostController extends Controller
             ]
         );
 
+
+
         $data = $request->all();
         $new_post = new Post();
         // non funzione con new_post->title  dobbiamo usare $data
-        $new_post->slug = Str::slug($data['title'], '-');
+
+        $slug_creato = Str::slug($data['title'], '-');
+
+        // controllo se c'è un duplicato
+        
+        //vedo se è presente uno slug uguale a quello digitato
+        $slug_database = Post::where('slug', $slug_creato)->first();
+        $contatore = 1;
+        while($slug_database) {
+            $slug_creato .= '-' . $contatore;
+
+            // ricontrollo che non ci sia sul database 
+            $slug_database = Post::where('slug', $slug_creato)->first();
+
+            $contatore++;
+        }
+
+        // dd( $slug_database );
+        // alla fine del controllo lo aggiungo
+        $new_post->slug = $slug_creato;
+
         $new_post->fill($data);
         $new_post->save();
         
-        return redirect()->route('admin.posts.index');
+        return redirect()->route('admin.posts.index')->with('add', 'Hai aggiunto con successo l\'elemento ' . $new_post->id);  
     }
 
     /**
@@ -99,9 +121,32 @@ class PostController extends Controller
         );
         
         $data =$request->all();
+        if($data['title'] != $post->title) {
+
+            $slug_creato = Str::slug($data['title'], '-');
+
+            // controllo se c'è un duplicato
+            
+            //vedo se è presente uno slug uguale a quello digitato
+            $slug_database = Post::where('slug', $slug_creato)->first();
+            $contatore = 1;
+            while($slug_database) {
+                $slug_creato .= '-' . $contatore;
+    
+                // ricontrollo che non ci sia sul database 
+                $slug_database = Post::where('slug', $slug_creato)->first();
+    
+                $contatore++;
+            }
+
+            // inserisco lo slug generato in data 
+            $data['slug'] = $slug_creato;
+            
+        }
+
         $post->update($data);
 
-        return redirect()->route('admin.posts.index');  
+        return redirect()->route('admin.posts.index')->with('changed', 'Hai modificato con successo l\'elemento ' . $post->id);  
     }
 
     /**
@@ -113,6 +158,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('admin.posts.index');
+        return redirect()->route('admin.posts.index')->with('delete', 'Hai cancellato con successo l\'elemento ' . $post->id);
     }
 }
