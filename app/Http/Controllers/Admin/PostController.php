@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 // collego i model 
-use App\Post;
 use App\Category;
+use App\Post;
 
 
 class PostController extends Controller
@@ -124,7 +124,6 @@ class PostController extends Controller
                 'category_id' => 'nullable|exists:categories,id'
             ]
         );
-        dd($post->category);
         $data =$request->all();
         if($data['title'] != $post->title) {
 
