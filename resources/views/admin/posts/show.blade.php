@@ -8,7 +8,7 @@
                 <h5 class="card-title">{{$post['title']}}</h5>
                 <p class="card-text">{{$post['content']}}</p>
                 <a href="{{ route('admin.posts.edit', $post['id']) }}" class="btn btn-warning">Edit</a>
-                <form action="{{ route('admin.posts.destroy', $post['id']) }}" method="post" class=" mt-2 d-inline-block">
+                <form action="{{ route('admin.posts.destroy', $post['id']) }}" method="post" class="delete-post mt-2 d-inline-block">
                     @csrf
                     @method('DELETE')
                     <input type="submit" value="Delete" class="btn btn-danger">

@@ -22,7 +22,7 @@
             <textarea name="content" class="form-control 
             @error('content') 
             is-invalid 
-            @enderror" id="description">{{ old('content', $post->content) }}</textarea>
+            @enderror"  id="description">{{ old('content', $post->content) }}</textarea>
             @error('content')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
