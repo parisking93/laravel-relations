@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 // lo importo per poetr usare slug 
 use Illuminate\Support\Str;
 
+// collego i model 
 use App\Post;
+use App\Category;
+
 
 class PostController extends Controller
 {
@@ -19,6 +22,7 @@ class PostController extends Controller
      */
     public function index()
     {
+
         $posts = Post::paginate(5);
         return view('admin.posts.index', compact('posts'));
     }
@@ -100,8 +104,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -116,10 +120,11 @@ class PostController extends Controller
         $request->validate(
             [
                 'title' => 'required|max:50',
-                'content' => 'required'
+                'content' => 'required',
+                'category_id' => 'nullable|exists:categories,id'
             ]
         );
-        
+        dd($post->category);
         $data =$request->all();
         if($data['title'] != $post->title) {
 

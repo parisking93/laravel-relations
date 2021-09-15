@@ -18,6 +18,17 @@
             @enderror
         </div>
         <div class="mb-3">
+            <label for="categoria" class="form-label d-block">Titolo</label>
+            <select class="form-control w-50" name="category_id" id="categoria" value="{{ old('title', $post->title) }}">
+                <option>-- Scegli la Categoria --</option>   
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" @if($category->id == old('category_id', $post->category_id)) selected @endif >
+                        {{ $category->name }}
+                    </option>   
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="description" class="form-label">Descrizione</label>
             <textarea name="content" class="form-control 
             @error('content') 
@@ -27,7 +38,7 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div>
-
+     
         <button type="submit" class="btn btn-primary">Modifica</button>
     </form>
 </div>
