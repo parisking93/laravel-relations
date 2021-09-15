@@ -13,7 +13,7 @@ class Post extends Model
         'category_id'
     ];
 
-    public function posts() {
+    public function category() {
         // MOLTI
         return $this->belongsTo('App\Category', 'category_id' , 'id');
     }

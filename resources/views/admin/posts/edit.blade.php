@@ -19,7 +19,10 @@
         </div>
         <div class="mb-3">
             <label for="categoria" class="form-label d-block">Titolo</label>
-            <select class="form-control w-50" name="category_id" id="categoria" value="{{ old('title', $post->title) }}">
+            <select class="form-control w-50
+            @error('category_id') 
+            is-invalid 
+            @enderror " name="category_id" id="categoria" value="{{ old('title', $post->title) }}">
                 <option>-- Scegli la Categoria --</option>   
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}" @if($category->id == old('category_id', $post->category_id)) selected @endif >
@@ -27,6 +30,9 @@
                     </option>   
                 @endforeach
             </select>
+            @error('category_id')
+                <div class="alert alert-danger w-50">{{ $message }}</div>
+            @enderror
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Descrizione</label>

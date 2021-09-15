@@ -29,7 +29,7 @@
                         @if($post->category_id)
                          <!-- per richiamare il name della tabella category uso  -->
                          <!-- nome del model(collegato a molti) -> nome funzione dentro al model -> nome dell'altributo che voglio prendere  -->
-                            {{$post->posts->name}}
+                            {{$post->category->name}}
                         @endif
                     </td>
                     <td>

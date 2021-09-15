@@ -10,7 +10,7 @@ class Category extends Model
         
     ];
 
-    public function category() {
+    public function posts() {
         // UNO
         return $this->HasMany('App\Post');
     }
